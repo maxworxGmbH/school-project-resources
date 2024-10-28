@@ -1,0 +1,10 @@
+void setup() {
+    pinMode(13, OUTPUT); // Wir richten den LED-Pin als Ausgang ein.
+}
+
+void loop() {
+    digitalWrite(13, HIGH); // Schaltet die LED an
+    delay(100);            // Wartet eine Sekunde
+    digitalWrite(13, LOW);  // Schaltet die LED aus
+    delay(100);            // Wartet eine Sekunde
+}
