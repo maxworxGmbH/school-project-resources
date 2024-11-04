@@ -1,0 +1,27 @@
+// Pin für die analoge Messung - hiermit ist der Sensor verbunden.
+const int analogPin = A0; 
+const int maxMoistureSensorValue = 300; // Wert wenn komplett im Wasser
+const int minMoistureSensorValue = 30; // Wert wenn komplett in der Luft
+
+void setup() {
+  // Serielle Kommunikation initialisieren - diese wird benötigt,
+  // um Ausgaben in der Konsole anzuzeigen.
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Analogen Wert von A0 lesen
+  int analogValue = analogRead(analogPin);
+  float moistureInPercent = (maxMoistureSensorValue - minMoistureSensorValue) / max(1, analogValue - minMoistureSensorValue);
+  // Falls der Wert doch mal außerhalb der kalibrierten Werte liegt:
+  moistureInPercent = constrain(moistureInPercent, 0, 100); // kann nicht kleiner Als 0 oder größer als 100 werden.
+  
+  // Wert über die serielle Schnittstelle ausgeben
+  Serial.print("Absoluter Wert: ");
+  Serial.println(analogValue);
+  Serial.print("Relativer Wert: ");
+  Serial.println(moistureInPercent);
+  
+  // Kurze Verzögerung für den Plot
+  delay(100); // Alle unegefähr alle 10ms wird das Signal gemessen und ausgegeben
+}
