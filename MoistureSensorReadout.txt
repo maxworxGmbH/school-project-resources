@@ -1,0 +1,19 @@
+// Pin für die analoge Messung - hiermit ist der Sensor verbunden.
+const int analogPin = A0; 
+
+void setup() {
+  // Serielle Kommunikation initialisieren - diese wird benötigt,
+  // um Ausgaben in der Konsole anzuzeigen.
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Analogen Wert von A0 lesen
+  int analogValue = analogRead(analogPin);
+  
+  // Wert über die serielle Schnittstelle ausgeben
+  Serial.println(analogValue);
+  
+  // Kurze Verzögerung für den Plot
+  delay(100); // Alle unegefähr alle 10ms wird das Signal gemessen und ausgegeben
+}
