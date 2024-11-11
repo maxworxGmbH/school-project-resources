@@ -1,0 +1,34 @@
+#define MaxdryAnalogValue 1023
+#define MaxwetAnalogValue 0
+#define DryValuePercent 0
+#define WetValuepercent 100
+#define Moisture_AlertValuepercent 25 // wenn die Feuchtigkeit 25% erreicht, beginnt die Bewässerung
+int Pumppin = A3;
+int sensorPin = A0;
+int sensorValue;
+void setup() {
+  Serial. begin(9600);
+  pinMode(Pumppin,OUTPUT); //Ausgangspin für die Relaiskarte, dieser
+  //sendet das Signal an das Relais
+  pinMode(A0,INPUT); //Eingangspin vom Bodensensor
+}
+void loop()
+{
+  sensorValue = analogRead(sensorPin);
+  Serial. print("Analoger Feuchtigkeitswert : ");
+  Serial. println(sensorValue);
+  int moistureValuePercent = map(sensorValue, MaxdryAnalogValue,
+  MaxwetAnalogValue, DryValuePercent, WetValuepercent);
+  Serial. print("Feuchtigkeitsprozent: ");
+  Serial. print(moistureValuePercent);
+  Serial. println("%");
+  if (moistureValuePercent <= Moisture_AlertValuepercent)
+  {
+    //Pflanze ist zu trocken, mit dem Gießen beginnen
+    digitalWrite(Pumppin, HIGH);
+    delay(2000);
+    // Hör auf zu gießen, es ist genug
+    digitalWrite(Pumppin,LOW);
+  }
+  delay(1000 * 60 * 5); // Überprüfung der Feuchtigkeit alle 5 Minuten
+}
